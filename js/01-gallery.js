@@ -27,12 +27,22 @@ function createGallaryMarkup(image) {
     }).join('');
 };
 
-galleryRef.addEventListener('click', (event) => {
-    event.preventDefault();
 
-    if (event.target.nodeName !== 'IMG') {
-     return
-    };
+galleryRef.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  if (event.target.nodeName !== 'IMG') {
+    return
+  };
     
-    console.log(event.target.dataset.source);
-})
+  const currentImg = event.target.dataset.source;
+  console.log(currentImg);
+
+  const instance = basicLightbox.create(`
+    <img src="${ currentImg }" width="800" height="600">
+`);
+
+  instance.show();
+  
+});
+
