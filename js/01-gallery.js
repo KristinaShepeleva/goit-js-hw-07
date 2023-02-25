@@ -5,11 +5,6 @@ import { galleryItems } from './gallery-items.js';
 
 const galleryRef = document.querySelector('.gallery');
 
-const markup = createGallaryMarkup(galleryItems);
-
-galleryRef.innerHTML = markup;
-
-
 function createGallaryMarkup(image) {
     return image.map(({ preview, original, description }) => {
         return `
@@ -27,22 +22,50 @@ function createGallaryMarkup(image) {
     }).join('');
 };
 
+const markup = createGallaryMarkup(galleryItems);
+galleryRef.innerHTML = markup;
 
-galleryRef.addEventListener('click', (event) => {
+galleryRef.addEventListener('click', onImageClick);
+
+function onImageClick(event) {
   event.preventDefault();
 
   if (event.target.nodeName !== 'IMG') {
     return
-  };
-    
-  const currentImg = event.target.dataset.source;
-  console.log(currentImg);
+  }
 
   const instance = basicLightbox.create(`
-    <img src="${ currentImg }" width="800" height="600">
-`);
-
+    <img src="${ event.target.dataset.source }" width="800" height="600">
+  `);
   instance.show();
+
+  galleryRef.addEventListener('keydown', (ev) => {
+    if (ev.code === "Escape") {
+      instance.close();
+    }
+  })
+
+}
+
+
+
+
+//galleryRef.addEventListener('click', (event) => {
+//  event.preventDefault();
+
+//  if (event.target.nodeName !== 'IMG') {
+//    return
+//  };
+    
+//  const currentImg = event.target.dataset.source;
+//  console.log(currentImg);
+
+//  const instance = basicLightbox.create(`
+//    <img src="${ currentImg }" width="800" height="600">
+//`);
+
+//  instance.show(); 
   
-});
+//});
+
 
